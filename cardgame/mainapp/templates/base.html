@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {% block head %}
+      {% block style %}
+    {% endblock%}
+      <title>Card Game</title>
+    {% endblock %}
+
+  </head>
+  <body>
+  <header>
+  </header>
+    <div id="content">{% block content %}{% endblock %}</div>
+      <br>
+  <br>
+    <div id="footer">
+      {% block footer %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

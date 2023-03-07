@@ -1,3 +1,47 @@
 from django.db import models
 
-# Create your models here.
+class GameModes(models.Model):
+    tower = models.IntegerField()
+    wall = models.IntegerField()
+    mine = models.IntegerField()
+    gold = models.IntegerField()
+    fountain = models.IntegerField()
+    mana = models.IntegerField()
+    farm = models.IntegerField()
+    food = models.IntegerField()
+    cov_tower = models.IntegerField()
+    cov_resources = models.IntegerField()
+
+class User(models.Model):
+    name = models.CharField(max_length=16, unique=True)
+    game_modes = models.ForeignKey(GameModes, on_delete=models.CASCADE)
+
+class MatchState(models.Model):
+    game_mode = models.ForeignKey(GameModes, on_delete=models.CASCADE)
+    player1 = models.OneToOneField(User)
+    player1_tower = models.IntegerField()
+    player1_wall = models.IntegerField()
+    player1_mine = models.IntegerField()
+    player1_gold = models.IntegerField()
+    player1_fountain = models.IntegerField()
+    player1_mana = models.IntegerField()
+    player1_farm = models.IntegerField()
+    player1_food = models.IntegerField()
+    player1_card1 = models.IntegerField()
+    player1_card2 = models.IntegerField()
+    player1_card3 = models.IntegerField()
+    player1_card4 = models.IntegerField()
+    player1_card5 = models.IntegerField()
+    player2_tower = models.IntegerField()
+    player2_wall = models.IntegerField()
+    player2_mine = models.IntegerField()
+    player2_gold = models.IntegerField()
+    player2_fountain = models.IntegerField()
+    player2_mana = models.IntegerField()
+    player2_farm = models.IntegerField()
+    player2_food = models.IntegerField()
+    player2_card1 = models.IntegerField()
+    player2_card2 = models.IntegerField()
+    player2_card3 = models.IntegerField()
+    player2_card4 = models.IntegerField()
+    player2_card5 = models.IntegerField()
