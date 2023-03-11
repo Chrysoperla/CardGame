@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<div>
+<h3>Your game modes</h3>
+<table>
+<thead>
+  <tr>
+    <th></th>
+      <th>TOWER</th>
+      <th>WALL</th>
+      <th>MINE/FOUNTAIN/FARM</th>
+      <th>GOLD/MANA/FOOD</th>
+      <th>VICTORIOUS TOWER</th>
+      <th>VICTORIOUS RESOURCES</th>
+        <th>PLAY</th>
+        <th>DELETE</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <th>STANDARD</th>
+      <th>20</th>
+      <th>10</th>
+      <th>3 / 2 / 3</th>
+      <th>10 / 15 / 10</th>
+      <th>60</th>
+      <th>250</th>
+      <th><button>PLAY!</button></th>
+</tbody>
+</table>
+</div>
+
+<div>
+<form method="post">
+    {% csrf_token %}
+    <h3>Starting values:</h3>
+    <p>Tower: <input type="number" name="tower"></p>
+    <p>Wall: <input type="number" name="wall"></p>
+    <p>Mine: <input type="number" name="mine">
+    <button name="equalise_prod">All productions equal</button>
+    Gold: <input type="number" name="gold">
+    <button name="equalise_res">All resources equal</button></p>
+    <p>Fountain: <input type="number" name="fountain">
+    Mana: <input type="number" name="mana"></p>
+    <p>Farm: <input type="number" name="farm">
+    Food: <input type="number" name="food"></p>
+    <h3>Conditions of victory:</h3>
+    <p>Tower: <input type="number" name="cov_tower"></p>
+    <p>Resources: <input type="number" name="cov_resources"></p>
+    <p><button type="submit">Save custom game settings</button></p>
+
+</form>
+    </div>
+{% endblock %}

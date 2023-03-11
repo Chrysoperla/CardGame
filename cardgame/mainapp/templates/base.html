@@ -10,6 +10,12 @@
   </head>
   <body>
   <header>
+    {% if user.is_authenticated %}
+    Hello, {{username}}!
+    <button><a href="{% url 'logout' %}">Log out</a></button>
+    {% else %}
+    <a href="{% url 'login' %}">Click here to log in!</a>
+    {% endif %}
   </header>
     <div id="content">{% block content %}{% endblock %}</div>
       <br>
