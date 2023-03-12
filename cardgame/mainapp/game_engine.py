@@ -43,16 +43,28 @@ def replace_card():
 def computer_player(user):
     # an algorhytm that the server uses to make the non-human player make its moves
     player2 = models.MatchState.objects.get(player1=user).player2
-    card1 = player2.card1
-    card1_color = card1.color
-    if card1_color == "G":
-        if card1.cost >= player2.food:
-            return card1
-    if card1_color == "R":
-        if card1.cost >= player2.gold:
-            return card1
-    if card1_color == "B":
-        if card1.cost >= player2.mana:
-            return card1
+    player2_deck = [player2.card1, player2.card2, player2.card3, player2.card4, player2.card5]
+    for card in player2_deck:
+        card_color = card.color
+        if card_color == "G":
+            if card.cost <= player2.food:
+                card.usage()
+                new_card = replace_card()
+                player2.card = new_card
+                return new_card
+        if card_color == "R":
+            if card.cost <= player2.gold:
+                card.usage()
+                new_card = replace_card()
+                player2.card = new_card
+                return new_card
+        if card_color == "B":
+            if card.cost <= player2.mana:
+                card.usage()
+                new_card = replace_card()
+                player2.card = new_card
+                return new_card
+    player2.card1.discard()
+
 # dokończyć dla kart 2,3,4,5
 
