@@ -1,9 +1,8 @@
 from mainapp import cards, models
 from random import sample, randint
 
+
 # TYMCZASOWE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-mouse = TinyMouse()
-deck = [mouse, mouse, mouse, mouse, mouse]
 
 def first_turn_roll(player1, player2):
     roll = randint(1, 2)
@@ -40,9 +39,24 @@ def replace_card():
     random_card = sample(deck, 1)
     return random_card
 
-def computer_player(user):
+def player1_round_start(user):
+    player1 = models.MatchState.objects.get(user=user).player1
+    player1.gold += player1.mine
+    player1.mana += player1.fountain
+    player1.food += player1.farm
+    return player1.gold, player1.mana, player1.food
+
+def player2_round_start(user):
+    player2 = models.MatchState.objects.get(user=user).player2
+    player2.gold += player2.mine
+    player2.mana += player2.fountain
+    player2.food += player2.farm
+    return player2.gold, player2.mana, player2.food
+
+def player2_card_choice(user):
     # an algorhytm that the server uses to make the non-human player make its moves
-    player2 = models.MatchState.objects.get(player1=user).player2
+    player2 = models.MatchState.objects.get(user=user).player2
+    player2_round_start(user)
     player2_deck = [player2.card1, player2.card2, player2.card3, player2.card4, player2.card5]
     for card in player2_deck:
         card_color = card.color
@@ -66,5 +80,36 @@ def computer_player(user):
                 return new_card
     player2.card1.discard()
 
-# dokończyć dla kart 2,3,4,5
+def check_victory_conditions(user):
+    # function that checks if any of victory conditions has been met. Returns 0 if none of them were met, 1 if
+    # player1 wins or 2 if player 2 wins
+    match_initial_state = models.MatchState.objects.get(user=user).initial_state
+    player1 = models.MatchState.objects.get(user=user).player1
+    player2 = models.MatchState.objects.get(user=user).player2
+    is_game_over = 0
+    if player1.tower < 1:
+        is_game_over = 2
+        result = "Your tower has been destroyed"
+        return is_game_over, result
+    if player2.tower < 1:
+        is_game_over = 1
+        result = "Your opponent's tower has been destroyed"
+        return is_game_over, result
+    if player1.tower >= match_initial_state.cov_tower:
+        is_game_over = 1
+        result = "Your tower has reached victorious height"
+        return is_game_over, result
+    if player2.tower >= match_initial_state.cov_tower:
+        is_game_over = 2
+        result = "Your opponent's tower has reached victorious height"
+        return is_game_over, result
+    if player1.gold or player1.mana or player1.food >= match_initial_state.cov_resources:
+        is_game_over = 1
+        result = "You have gathered enough resources to triumph over your opponent"
+        return is_game_over, result
+    if player2.gold or player2.mana or player2.food >= match_initial_state.cov_resources:
+        is_game_over = 2
+        result = "Your opponent have gathered plenty of resources and won"
+        return is_game_over, result
+    return is_game_over
 
