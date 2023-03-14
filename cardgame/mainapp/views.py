@@ -76,5 +76,8 @@ class GameModeChoice(LoginRequiredMixin, View):
         return render(request, "gamemodechoice.html", ctx)
 
 class Game(LoginRequiredMixin, View):
-    def get(self):
-        return HttpResponse("test")
+    def get(self, request):
+        player1_state = models.Player1State.objects.get(user=request.user)
+        match = models.MatchState.objects.get(player1=player1_state)
+        ctx = {"match" : match}
+        return render(request, "match.html", ctx)

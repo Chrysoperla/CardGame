@@ -2,10 +2,10 @@
 {% block content %}
 <div class="cov_desc">
   Conditions of victory:<br>
-  Tower: {{ match.cov_tower }} <br>
-  Resources: {{ match.cov_victory}} <br>
+  Tower: {{ match.initial_state.cov_tower }} <br>
+  Resources: {{ match.initial_state.cov_victory}} <br>
 </div>
-<div class="name">{{match.player1_id.username}}</div>
+<div class="name">{{match.player1.user.username}}</div>
 <div class="mine">MINE {{ match.player1.mine }}</div>
 <div class="gold">GOLD: {{ match.player1.gold }}</div>
 <div class="fountain">FOUNTAIN {{ match.player1.fountain }}</div>
@@ -21,7 +21,7 @@
 <div class="farm">FARM {{ match.player2.farm }}</div>
 <div class="food">FOOD: {{ match.player2.food }}</div>
 
-<div class="2nd_last_card">{{ match.2nd_last_card }}</div>
+<div class="second_last_card">{{ match.second_last_card }}</div>
 <div class="last_card">{{ match.last_card }}</div>
 
 <div class="tower">{{match.player1.tower}}</div>
