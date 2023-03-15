@@ -14,8 +14,8 @@ def first_turn_roll(player1, player2):
 
 def start_game(request, initial_state):
     user = request.user
-    player1_cards = sample(cards.deck, k=5)
-    player2_cards = sample(cards.deck, k=5)
+    player1_cards = sample(cards.deck(), k=5)
+    player2_cards = sample(cards.deck(), k=5)
     player1 = models.Player1State.objects.create(user=user, tower=initial_state.tower, wall=initial_state.wall,
                                                  mine=initial_state.mine, gold=initial_state.gold,
                                                  fountain=initial_state.fountain, mana=initial_state.mana,

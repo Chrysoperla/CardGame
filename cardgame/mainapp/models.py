@@ -18,6 +18,19 @@ class HumanPlayer(models.Model):
     initial_states = models.ManyToManyField(InitialState)
     game_count = models.IntegerField(default=0)
 
+CARDS = (
+    (1, "Tiny mouse"),
+    (2, "Arcane Butterfly"),
+    (3, "Feline Familiar"),
+    (4, "Foam Reptile"),
+    (5, "Loyal Mount"),
+    (6, "Common wolf"),
+    (7, "Werewolf"),
+    (8, "Dwarves"),
+    (9, "Mermaid"),
+    (10, "Orcs"),
+    (11, "Friendly Fairy")
+    )
 class Player1State(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     tower = models.IntegerField()
@@ -28,11 +41,11 @@ class Player1State(models.Model):
     mana = models.IntegerField()
     farm = models.IntegerField()
     food = models.IntegerField()
-    card1 = models.IntegerField()
-    card2 = models.IntegerField()
-    card3 = models.IntegerField()
-    card4 = models.IntegerField()
-    card5 = models.IntegerField()
+    card1 = models.IntegerField(choices=CARDS)
+    card2 = models.IntegerField(choices=CARDS)
+    card3 = models.IntegerField(choices=CARDS)
+    card4 = models.IntegerField(choices=CARDS)
+    card5 = models.IntegerField(choices=CARDS)
 
 class Player2State(models.Model):
     tower = models.IntegerField()
@@ -43,15 +56,15 @@ class Player2State(models.Model):
     mana = models.IntegerField()
     farm = models.IntegerField()
     food = models.IntegerField()
-    card1 = models.IntegerField()
-    card2 = models.IntegerField()
-    card3 = models.IntegerField()
-    card4 = models.IntegerField()
-    card5 = models.IntegerField()
+    card1 = models.IntegerField(choices=CARDS)
+    card2 = models.IntegerField(choices=CARDS)
+    card3 = models.IntegerField(choices=CARDS)
+    card4 = models.IntegerField(choices=CARDS)
+    card5 = models.IntegerField(choices=CARDS)
 
 class MatchState(models.Model):
     initial_state = models.ForeignKey(InitialState, on_delete=models.CASCADE)
     player1 = models.OneToOneField(Player1State, on_delete=models.CASCADE)
     player2 = models.OneToOneField(Player2State, on_delete=models.CASCADE, null=True)
-    last_card = models.IntegerField(null=True)
-    second_last_card = models.IntegerField(null=True)
+    last_card = models.IntegerField(null=True, choices=CARDS)
+    second_last_card = models.IntegerField(null=True, choices=CARDS)

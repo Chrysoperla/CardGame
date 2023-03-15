@@ -247,9 +247,11 @@ class FriendlyFairy(Card):
         my_side.fountain += 1
         return my_side.fountain
 
+def create_deck():
+    deck = []
+    for subclass in Card.__subclasses__():
+        for i in range(1, subclass().rarity):
+            activate = subclass()
+            return deck
 
-deck = []
-for subclass in Card.__subclasses__():
-    for i in range(1, subclass().rarity):
-        activate = subclass()
 

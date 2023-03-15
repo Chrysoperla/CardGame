@@ -87,6 +87,9 @@ class GameModeChoice(LoginRequiredMixin, View):
 
 class Match(LoginRequiredMixin, View):
     def get(self, request):
+        # UWAGA! NA RAZIE TYLKO JEDEN INITIAL STATE
+        initial_state = models.InitialState.objects.get(tower=20, wall=10, mine=3, fountain=2, farm=3, gold=10, mana=15,
+                                                        food=10, cov_tower=60, cov_resources=250)
         game_engine.start_game(request, initial_state)
         player1_state = models.Player1State.objects.get(user=request.user)
         match = models.MatchState.objects.get(player1=player1_state)
