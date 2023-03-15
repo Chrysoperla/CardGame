@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
-from mainapp import models
+from mainapp import models, game_engine
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -77,7 +77,8 @@ class GameModeChoice(LoginRequiredMixin, View):
 
 class Game(LoginRequiredMixin, View):
     def get(self, request):
+        game_engine.start_game(request, initial_state)
         player1_state = models.Player1State.objects.get(user=request.user)
         match = models.MatchState.objects.get(player1=player1_state)
-        ctx = {"match" : match}
+        ctx = {"match": match}
         return render(request, "match.html", ctx)
