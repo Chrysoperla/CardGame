@@ -24,7 +24,7 @@ class LoginView(View):
             login(request, user)
             return redirect('home')
         else:
-            ctx = {'user': user}
+            ctx = {'username': request.user.username, 'user': user}
             return render(request, 'login.html', ctx)
 
 class LogoutView(View):
@@ -35,9 +35,13 @@ class LogoutView(View):
 
 class GameModeChoice(LoginRequiredMixin, View):
     def get(self, request):
-        ctx = {}
+        user_id = request.user.id
+        initial_states = models.HumanPlayer.objects.get(user_id=user_id).initial_states.all()
+        ctx = {'username': request.user.username, 'initial_states': initial_states}
         return render(request, "gamemodechoice.html", ctx)
     def post(self, request):
+        user_id = request.user.id
+        initial_state = models.HumanPlayer.objects.filter(user_id=user_id)
         tower = int(request.POST.get("tower"))
         if tower < 1 or tower > 999:
             raise Exception("You can only choose numbers between 1 and 999")
@@ -69,22 +73,22 @@ class GameModeChoice(LoginRequiredMixin, View):
         if cov_resources < 1 or cov_resources > 999:
             raise Exception("You can only choose numbers between 1 and 999")
         try:
-            game_mode = models.InitialState.objects.get(tower=tower, wall=wall, mine=mine, gold=gold, fountain=fountain, mana=mana,
-                                            farm=farm, food=food, cov_tower=cov_tower, cov_resources=cov_resources)
+            game_mode = models.InitialState.objects.get(tower=tower, wall=wall, mine=mine, gold=gold, fountain=fountain,
+                                                        mana=mana, farm=farm, food=food, cov_tower=cov_tower,
+                                                        cov_resources=cov_resources)
         except:
             game_mode = models.InitialState.objects.create(tower=tower, wall=wall, mine=mine, gold=gold,
                                                            fountain=fountain, mana=mana, farm=farm, food=food,
                                                            cov_tower=cov_tower, cov_resources=cov_resources)
-            user_id = request.user.id
-            player = models.HumanPlayer.objects.get(user_id=user_id)
-            player.game_modes.add(game_mode)
-            ctx = {}
-            return render(request, "gamemodechoice.html", ctx)
+        player = models.HumanPlayer.objects.get(user_id=user_id)
+        player.initial_states.add(game_mode)
+        ctx = {'username': request.user.username, 'initial_state': initial_state}
+        return render(request, "gamemodechoice.html", ctx)
 
-class Game(LoginRequiredMixin, View):
+class Match(LoginRequiredMixin, View):
     def get(self, request):
         game_engine.start_game(request, initial_state)
         player1_state = models.Player1State.objects.get(user=request.user)
         match = models.MatchState.objects.get(player1=player1_state)
-        ctx = {"match": match}
+        ctx = {'username': request.user.username, "match": match}
         return render(request, "match.html", ctx)

@@ -26,6 +26,18 @@
       <th>60</th>
       <th>250</th>
       <th><button>PLAY!</button></th>
+{% for initial_state in initial_states %}
+      <tr>
+      <th></th>
+      <th>{{initial_state.tower}}</th>
+      <th>{{initial_state.wall}}</th>
+      <th>{{initial_state.mine}} / {{initial_state.fountain}} / {{initial_state.farm}}</th>
+      <th>{{initial_state.gold}} / {{initial_state.mana}} / {{initial_state.food}}</th>
+      <th>{{initial_state.cov_tower}}</th>
+      <th>{{initial_state.cov_resources}}</th>
+      <th><button type="button" class="play_button" id="{{initial_state.id}}">PLAY!</button></th>
+      <th><button type="button" class="delete_button">DELETE</button></th>
+{% endfor %}
 </tbody>
 </table>
 </div>
