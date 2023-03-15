@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class Home(View):
     def get(self, request):
-        ctx = {}
+        ctx = {'username': request.user.username}
         return render(request, "home.html", ctx)
 
 
@@ -22,9 +22,10 @@ class LoginView(View):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return HttpResponse("Zalogowano")
+            return redirect('home')
         else:
-            return HttpResponse("Logowanie nie powiodło się")
+            ctx = {'user': user}
+            return render(request, 'login.html', ctx)
 
 class LogoutView(View):
     def get(self, request):
@@ -67,13 +68,18 @@ class GameModeChoice(LoginRequiredMixin, View):
         cov_resources = int(request.POST.get("cov_resources"))
         if cov_resources < 1 or cov_resources > 999:
             raise Exception("You can only choose numbers between 1 and 999")
-        game_mode = models.InitialState.objects.create(tower=tower, wall=wall, mine=mine, gold=gold, fountain=fountain, mana=mana,
-                                        farm=farm, food=food, cov_tower=cov_tower, cov_resources=cov_resources)
-        user = request.user
-        player = models.HumanPlayer.objects.get(user=user)
-        player.game_modes.add(game_mode)
-        ctx = {}
-        return render(request, "gamemodechoice.html", ctx)
+        try:
+            game_mode = models.InitialState.objects.get(tower=tower, wall=wall, mine=mine, gold=gold, fountain=fountain, mana=mana,
+                                            farm=farm, food=food, cov_tower=cov_tower, cov_resources=cov_resources)
+        except:
+            game_mode = models.InitialState.objects.create(tower=tower, wall=wall, mine=mine, gold=gold,
+                                                           fountain=fountain, mana=mana, farm=farm, food=food,
+                                                           cov_tower=cov_tower, cov_resources=cov_resources)
+            user_id = request.user.id
+            player = models.HumanPlayer.objects.get(user_id=user_id)
+            player.game_modes.add(game_mode)
+            ctx = {}
+            return render(request, "gamemodechoice.html", ctx)
 
 class Game(LoginRequiredMixin, View):
     def get(self, request):
