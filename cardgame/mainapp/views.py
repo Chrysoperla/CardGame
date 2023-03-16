@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
 from mainapp import models, game_engine
 from django.http import HttpResponse
@@ -90,8 +91,20 @@ class Match(LoginRequiredMixin, View):
         # UWAGA! NA RAZIE TYLKO JEDEN INITIAL STATE
         initial_state = models.InitialState.objects.get(tower=20, wall=10, mine=3, fountain=2, farm=3, gold=10, mana=15,
                                                         food=10, cov_tower=60, cov_resources=250)
-        game_engine.start_game(request, initial_state)
+        try:
+            game_engine.start_game(request, initial_state)
+        except IntegrityError:
+            pass
         player1_state = models.Player1State.objects.get(user=request.user)
         match = models.MatchState.objects.get(player1=player1_state)
-        ctx = {'username': request.user.username, "match": match}
+        card_names = [models.CARDS[match.player1.card1-1], models.CARDS[match.player1.card2-1],
+                      models.CARDS[match.player1.card3-1], models.CARDS[match.player1.card4-1],
+                      models.CARDS[match.player1.card5-1]]
+        card1_name = card_names[0][1]
+        card2_name = card_names[1][1]
+        card3_name = card_names[2][1]
+        card4_name = card_names[3][1]
+        card5_name = card_names[4][1]
+        ctx = {'username': request.user.username, "match": match, "card1_name": card1_name, "card2_name": card2_name,
+               "card3_name": card3_name, "card4_name": card4_name, "card5_name": card5_name}
         return render(request, "match.html", ctx)

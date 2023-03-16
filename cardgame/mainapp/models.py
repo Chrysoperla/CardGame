@@ -32,7 +32,7 @@ CARDS = (
     (11, "Friendly Fairy")
     )
 class Player1State(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     tower = models.IntegerField()
     wall = models.IntegerField()
     mine = models.IntegerField()

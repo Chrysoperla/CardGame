@@ -3,7 +3,7 @@
 <div class="cov_desc">
   Conditions of victory:<br>
   Tower: {{ match.initial_state.cov_tower }} <br>
-  Resources: {{ match.initial_state.cov_victory}} <br>
+  Resources: {{ match.initial_state.cov_resources}} <br>
 </div>
 <div class="name">{{match.player1.user.username}}</div>
 <div class="mine">MINE {{ match.player1.mine }}</div>
@@ -29,11 +29,11 @@
 <div class="wall">{{match.player2.wall}}</div>
 <div class="tower">{{match.player2.tower}}</div>
 
-<div class="card">{{match.player1.card_1}}</div>
-<div class="card">{{match.player1.card_2}}</div>
-<div class="card">{{match.player1.card_3}}</div>
-<div class="card">{{match.player1.card_4}}</div>
-<div class="card">{{match.player1.card_5}}</div>
+<div class="card">{{card1_name}}</div>
+<div class="card">{{card2_name}}</div>
+<div class="card">{{card3_name}}</div>
+<div class="card">{{card4_name}}</div>
+<div class="card">{{card5_name}}</div>
 
 
 {% endblock %}

@@ -5,7 +5,6 @@ class Card:
         self.player = 0
         # self.image =
         self.back_image = []
-        deck.append(self)
 
     def discard(self):
         player = 0
@@ -251,7 +250,8 @@ def create_deck():
     deck = []
     for subclass in Card.__subclasses__():
         for i in range(1, subclass().rarity):
-            activate = subclass()
-            return deck
+            card = subclass()
+            deck.append(card)
+    return deck
 
 
