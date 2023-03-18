@@ -34,8 +34,9 @@ def start_game(request, initial_state):
         return "Player2 turn"
 
 def replace_card():
+    deck = cards.create_deck()
     random_card = sample(deck, 1)
-    return random_card
+    return random_card[0]
 
 def player1_round_start(user):
     player1 = models.MatchState.objects.get(user=user).player1

@@ -47,6 +47,7 @@ class Card:
             my_side.tower -= damage_wall_difference
         return my_side.wall, my_side.tower
 
+
 class TinyMouse(Card):
 
     def __init__(self):
@@ -241,27 +242,14 @@ class FriendlyFairy(Card):
         self.cost = 4
         self.rarity = 2
         # self.image =
-
-    def count_cost(self, player, match):
-        my_side = super().select_my_side(player, match)
-        if card_color == "G":
-
-                card.usage()
-                new_card = replace_card()
-                player2.card = new_card
-                return new_card
-        if card_color == "R":
-            if card.cost <= player2.gold:
-                card.usage()
-                new_card = replace_card()
-                player2.card = new_card
-                return new_card
-        if card_color == "B":
-
     def usage(self, player, match):
         # Your fountain level gets increased by 1
         my_side = super().select_my_side(player, match)
+        my_side.mana -= self.cost
         my_side.fountain += 1
+        match.second_last_card = match.last_card
+        match.last_card = self.id
+        my_side.save()
         return my_side.fountain
 
 def create_deck():
@@ -271,5 +259,6 @@ def create_deck():
             card = subclass()
             deck.append(card)
     return deck
+
 
 

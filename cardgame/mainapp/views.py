@@ -99,6 +99,8 @@ class Match(LoginRequiredMixin, View):
                     break
             match = models.MatchState.objects.get(player1=player1_state)
             card1.usage(1, match)
+            card1_replacement = game_engine.replace_card()
+            player1_state.card1 = card1_replacement.id
             card_names = [models.CARDS[match.player1.card1-1], models.CARDS[match.player1.card2-1],
                           models.CARDS[match.player1.card3-1], models.CARDS[match.player1.card4-1],
                           models.CARDS[match.player1.card5-1]]
