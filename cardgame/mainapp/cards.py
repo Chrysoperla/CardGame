@@ -1,3 +1,4 @@
+from mainapp import models
 
 class Card:
 
@@ -10,20 +11,20 @@ class Card:
         player = 0
         return player
 
-    def select_my_side(self):
-        if self.player == 1:
-            my_side = player_1
+    def select_my_side(self, player, match):
+        if player == 1:
+            my_side = match.player1
             return my_side
-        elif self.player == 2:
-            my_side = player_2
+        elif player == 2:
+            my_side = match.player2
             return my_side
 
-    def select_enemy_side(self):
-        if self.player == 1:
-            enemy_side = player_2
+    def select_enemy_side(self, player, match):
+        if player == 1:
+            enemy_side = match.player2
             return enemy_side
-        elif self.player == 2:
-            enemy_side = player_1
+        elif player == 2:
+            enemy_side = match.player1
             return enemy_side
 
     def damage_calculation(self, damage):
@@ -38,12 +39,13 @@ class Card:
 
     def friendly_fire_calculation(self, damage):
         my_side = self.select_my_side()
-        if my_side.wall >= 5:
-            my_side.wall -= 5
+        if my_side.wall >= damage:
+            my_side.wall -= damage
         else:
-            damage_wall_difference = 5 - my_side.wall
+            damage_wall_difference = damage - my_side.wall
             my_side.wall = 0
             my_side.tower -= damage_wall_difference
+        return my_side.wall, my_side.tower
 
 class TinyMouse(Card):
 
@@ -56,7 +58,7 @@ class TinyMouse(Card):
         self.rarity = 3
         # self.image =
 
-    def usage(self):
+    def usage(self, player):
         # Deals 2 damage. The opponent loses 10 food.
         enemy_side = super().select_enemy_side()
         super().damage_calculation(2)
@@ -77,7 +79,7 @@ class ArcaneButterfly(Card):
         self.rarity = 2
         # self.image =
 
-    def usage(self):
+    def usage(self, player):
         # Deals 5 damage if your fountain level is higher that your opponent's. Otherwise deals 3 damage
         enemy_side = super().select_enemy_side()
         my_side = super().select_my_side()
@@ -97,7 +99,7 @@ class FelineFamiliar(Card):
         self.rarity = 1
         # self.image =
 
-    def usage(self):
+    def usage(self, player):
         # increase both your farm level and your fountain level by 1
         my_side = super().select_my_side()
         my_side.fountain += 1
@@ -114,7 +116,7 @@ class FoamReptile(Card):
         self.rarity = 1
         # self.image =
 
-    def usage(self):
+    def usage(self, player):
         # Deals 15 damage if enemy wall is 15 or higher. Otherwise, deals 8 damage
         enemy_side = super().select_enemy_side()
         if enemy_side.wall >= 15:
@@ -133,7 +135,7 @@ class LoyalMount(Card):
         self.rarity = 1
         # self.image =
 
-    def usage(self):
+    def usage(self, player):
         # You get gold and food equal to your corresponding production levels. Also, increases wall by 5
         my_side = super().select_my_side()
         my_side.food += my_side.farm
@@ -151,7 +153,7 @@ class CommonWolf(Card):
         self.rarity = 2
         # self.image =
 
-    def usage(self):
+    def usage(self, player):
         # Deals 5 damage
         enemy_side = super().select_enemy_side()
         super().damage_calculation(5)
@@ -167,7 +169,7 @@ class Werewolf(Card):
         self.rarity = 1
         # self.image =
 
-    def usage(self):
+    def usage(self, player):
         # Deals 15 damage to your opponent. You take 5 damage
         enemy_side = super().select_enemy_side()
         my_side = super().select_my_side()
@@ -185,7 +187,7 @@ class Dwarves(Card):
         self.rarity = 1
         # self.image =
 
-    def usage(self):
+    def usage(self, player):
         # You get 1 mine level. Additionally, your tower and wall get increased by 5
         my_side = super().select_my_side()
         my_side.mine += 1
@@ -203,7 +205,7 @@ class Mermaid(Card):
         self.rarity = 1
         # self.image =
 
-    def usage(self):
+    def usage(self, player):
         # Opponent's wall takes 15 damage
         enemy_side = super().select_enemy_side()
         if enemy_side.wall > 15:
@@ -222,7 +224,7 @@ class Orcs(Card):
         self.rarity = 2
         # self.image =
 
-    def usage(self):
+    def usage(self, player):
         # Deals 8 damage to your opponent. Your tower +3
         enemy_side = super().select_enemy_side()
         my_side = super().select_my_side()
@@ -240,9 +242,25 @@ class FriendlyFairy(Card):
         self.rarity = 2
         # self.image =
 
-    def usage(self):
+    def count_cost(self, player, match):
+        my_side = super().select_my_side(player, match)
+        if card_color == "G":
+
+                card.usage()
+                new_card = replace_card()
+                player2.card = new_card
+                return new_card
+        if card_color == "R":
+            if card.cost <= player2.gold:
+                card.usage()
+                new_card = replace_card()
+                player2.card = new_card
+                return new_card
+        if card_color == "B":
+
+    def usage(self, player, match):
         # Your fountain level gets increased by 1
-        my_side = super().select_my_side()
+        my_side = super().select_my_side(player, match)
         my_side.fountain += 1
         return my_side.fountain
 

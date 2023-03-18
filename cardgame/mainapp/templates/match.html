@@ -21,15 +21,33 @@
 <div class="farm">FARM {{ match.player2.farm }}</div>
 <div class="food">FOOD: {{ match.player2.food }}</div>
 
-<div class="second_last_card">{{ match.second_last_card }}</div>
-<div class="last_card">{{ match.last_card }}</div>
+<div class="second_last_card">
+  {% if match.second_last_card == None %}
+  -
+  {% else %}
+  {{ match.second_last_card }}
+  {% endif %}
+</div>
+<div class="last_card">
+  {% if match.last_card == None %}
+  -
+  {% else %}
+  {{ match.last_card }}
+  {% endif %}
+</div>
 
 <div class="tower">{{match.player1.tower}}</div>
 <div class="wall">{{match.player1.wall}}</div>
 <div class="wall">{{match.player2.wall}}</div>
 <div class="tower">{{match.player2.tower}}</div>
 
-<div class="card">{{card1_name}}</div>
+<div class="card">
+  {{card1_name}}
+  <form action="#" method="get">
+ <input type="submit" class="btn" value="Use" name="card1_usage">
+  </form>
+  <button>Discard</button>
+</div>
 <div class="card">{{card2_name}}</div>
 <div class="card">{{card3_name}}</div>
 <div class="card">{{card4_name}}</div>
