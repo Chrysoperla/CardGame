@@ -88,73 +88,23 @@ class GameModeChoice(LoginRequiredMixin, View):
 
 class Match(LoginRequiredMixin, View):
     def get(self, request):
-        if request.GET.get('card1_usage'):
-            player1_state = models.Player1State.objects.get(user=request.user)
-            card1_id = player1_state.card1
-            deck = cards.create_deck()
-            card1 = None
-            for card in deck:
-                if card.id == card1_id:
-                    card1 = card
-                    break
-            match = models.MatchState.objects.get(player1=player1_state)
-            card1.usage(1, match)
-            card1_replacement = game_engine.replace_card()
-            player1_state.card1 = card1_replacement.id
-        if request.GET.get('card2_usage'):
-            player1_state = models.Player1State.objects.get(user=request.user)
-            card2_id = player1_state.card2
-            deck = cards.create_deck()
-            card2 = None
-            for card in deck:
-                if card.id == card2_id:
-                    card2 = card
-                    break
-            match = models.MatchState.objects.get(player1=player1_state)
-            card2.usage(1, match)
-            card2_replacement = game_engine.replace_card()
-            player1_state.card2 = card2_replacement.id
-        if request.GET.get('card3_usage'):
-            player1_state = models.Player1State.objects.get(user=request.user)
-            card3_id = player1_state.card3
-            deck = cards.create_deck()
-            card3 = None
-            for card in deck:
-                if card.id == card3_id:
-                    card3 = card
-                    break
-            match = models.MatchState.objects.get(player1=player1_state)
-            card3.usage(1, match)
-            card3_replacement = game_engine.replace_card()
-            player1_state.card3 = card3_replacement.id
-        if request.GET.get('card4_usage'):
-            player1_state = models.Player1State.objects.get(user=request.user)
-            card4_id = player1_state.card4
-            deck = cards.create_deck()
-            card4 = None
-            for card in deck:
-                if card.id == card4_id:
-                    card4 = card
-                    break
-            match = models.MatchState.objects.get(player1=player1_state)
-            card4.usage(1, match)
-            card4_replacement = game_engine.replace_card()
-            player1_state.card4 = card4_replacement.id
-        if request.GET.get('card5_usage'):
-            player1_state = models.Player1State.objects.get(user=request.user)
-            card5_id = player1_state.card5
-            deck = cards.create_deck()
-            card5 = None
-            for card in deck:
-                if card.id == card5_id:
-                    card5 = card
-                    break
-            match = models.MatchState.objects.get(player1=player1_state)
-            player2_state = models.Player2State.objects.get()
-            card5.usage(1, match)
-            card5_replacement = game_engine.replace_card()
-            player1_state.card5 = card5_replacement.id
-        else:
+        game_engine.player1_card_usage(request)
+        # if request.GET.get('card1_usage'):
+        #     player1_state = models.Player1State.objects.get(user=request.user)
+        #     card1_id = player1_state.card1
+        #     deck = cards.create_deck()
+        #     card1 = None
+        #     for card in deck:
+        #         if card.id == card1_id:
+        #             card1 = card
+        #             break
+        #     match = models.MatchState.objects.get(player1=player1_state)
+        #     card1.usage(1, match)
+        #     card1_replacement = game_engine.replace_card()
+        #     player1_state.card1 = card1_replacement.id
+        buttons = ['card1_usage', 'card2_usage', 'card3_usage', 'card4_usage', 'card5_usage']
+        if not (request.GET.get(buttons[0]) or request.GET.get(buttons[1]) or request.GET.get(buttons[2])
+                or request.GET.get(buttons[3]) or request.GET.get(buttons[4])):
             # UWAGA! NA RAZIE TYLKO JEDEN INITIAL STATE
             initial_state = models.InitialState.objects.get(tower=20, wall=10, mine=3, fountain=2, farm=3, gold=10,
                                                             mana=15,
@@ -163,9 +113,9 @@ class Match(LoginRequiredMixin, View):
                 game_engine.start_game(request, initial_state)
             except IntegrityError:
                 pass
-            player1_state = models.Player1State.objects.get(user=request.user)
-            match = models.MatchState.objects.get(player1=player1_state)
-            player2_state = models.Player2State.objects.get()
+        player1_state = models.Player1State.objects.get(user=request.user)
+        match = models.MatchState.objects.get(player1=player1_state)
+        player2_state = models.Player2State.objects.get()
         player1_state.save()
         match.save()
         player2_state.save()

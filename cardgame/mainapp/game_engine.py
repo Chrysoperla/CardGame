@@ -48,6 +48,28 @@ def player1_round_start(user):
     player1.food += player1.farm
     return player1.gold, player1.mana, player1.food
 
+def player1_card_usage(request):
+    buttons = ['card1_usage', 'card2_usage', 'card3_usage', 'card4_usage', 'card5_usage']
+    player1_state = models.Player1State.objects.get(user=request.user)
+    which_card = [player1_state.card1, player1_state.card2, player1_state.card3, player1_state.card4, player1_state.card5]
+    for button in buttons:
+        if request.GET.get(button):
+            for i in range(0, 5):
+                if button == buttons[i]:
+                    card_to_use_id = which_card[i]
+                    break
+            deck = cards.create_deck()
+            card_to_use = None
+            for card in deck:
+                if card.id == card_to_use_id:
+                    card_to_use = card
+                    break
+            match = models.MatchState.objects.get(player1=player1_state)
+            card_to_use.usage(1, match)
+            card_replacement = replace_card()
+            player1_state.card1 = card_replacement.id
+
+
 def player2_round_start(user):
     player2 = models.MatchState.objects.get(user=user).player2
     player2.gold += player2.mine
