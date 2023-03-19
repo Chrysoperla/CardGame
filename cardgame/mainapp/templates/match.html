@@ -25,14 +25,14 @@
   {% if match.second_last_card == None %}
   -
   {% else %}
-  {{ match.second_last_card }}
+  {{ second_last_card_name }}
   {% endif %}
 </div>
 <div class="last_card">
   {% if match.last_card == None %}
   -
   {% else %}
-  {{ match.last_card }}
+  {{ last_card_name }}
   {% endif %}
 </div>
 
@@ -48,10 +48,33 @@
   </form>
   <button>Discard</button>
 </div>
-<div class="card">{{card2_name}}</div>
-<div class="card">{{card3_name}}</div>
-<div class="card">{{card4_name}}</div>
-<div class="card">{{card5_name}}</div>
+<div class="card">
+  {{card2_name}}
+  <form action="#" method="get">
+ <input type="submit" class="btn" value="Use" name="card2_usage">
+  </form>
+  <button>Discard</button>
+</div>
+<div class="card">
+  {{card3_name}}
+  <form action="#" method="get">
+ <input type="submit" class="btn" value="Use" name="card3_usage">
+  </form>
+  <button>Discard</button></div>
+<div class="card">
+  {{card4_name}}
+    <form action="#" method="get">
+ <input type="submit" class="btn" value="Use" name="card4_usage">
+  </form>
+  <button>Discard</button>
+</div>
+<div class="card">
+  {{card5_name}}
+    <form action="#" method="get">
+ <input type="submit" class="btn" value="Use" name="card5_usage">
+  </form>
+  <button>Discard</button>
+</div>
 
 
 {% endblock %}

@@ -250,6 +250,7 @@ class FriendlyFairy(Card):
         match.second_last_card = match.last_card
         match.last_card = self.id
         my_side.save()
+        match.save()
         return my_side.fountain
 
 def create_deck():

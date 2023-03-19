@@ -1,12 +1,15 @@
 from mainapp import cards, models
 from random import sample, randint
 
-def first_turn_roll(player1, player2):
+def first_turn_roll(user):
     roll = randint(1, 2)
     if roll == 1:
-        return player1
+        announcement = "Player1 was drawn to get the first turn of the match"
+        return announcement
     elif roll == 2:
-        return player2
+        announcement = "Player2 was drawn to get the first turn of the match"
+        player2_card_choice(user)
+        return announcement
 
 
 def start_game(request, initial_state):
