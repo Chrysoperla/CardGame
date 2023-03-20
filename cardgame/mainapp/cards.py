@@ -303,6 +303,7 @@ class FriendlyFairy(Card):
         self.cost = 4
         self.rarity = 2
         # self.image =
+
     def usage(self, player, match):
         # Your fountain level gets increased by 1
         my_side = super().select_my_side(player, match)
@@ -317,7 +318,7 @@ class FriendlyFairy(Card):
 def create_deck():
     deck = []
     for subclass in Card.__subclasses__():
-        for i in range(1, subclass().rarity):
+        for i in range(1, subclass().rarity+1):
             card = subclass()
             deck.append(card)
     return deck

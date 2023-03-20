@@ -88,20 +88,6 @@ class GameModeChoice(LoginRequiredMixin, View):
 
 class Match(LoginRequiredMixin, View):
     def get(self, request):
-        game_engine.player1_card_usage(request)
-        # if request.GET.get('card1_usage'):
-        #     player1_state = models.Player1State.objects.get(user=request.user)
-        #     card1_id = player1_state.card1
-        #     deck = cards.create_deck()
-        #     card1 = None
-        #     for card in deck:
-        #         if card.id == card1_id:
-        #             card1 = card
-        #             break
-        #     match = models.MatchState.objects.get(player1=player1_state)
-        #     card1.usage(1, match)
-        #     card1_replacement = game_engine.replace_card()
-        #     player1_state.card1 = card1_replacement.id
         buttons = ['card1_usage', 'card2_usage', 'card3_usage', 'card4_usage', 'card5_usage']
         if not (request.GET.get(buttons[0]) or request.GET.get(buttons[1]) or request.GET.get(buttons[2])
                 or request.GET.get(buttons[3]) or request.GET.get(buttons[4])):
@@ -113,6 +99,9 @@ class Match(LoginRequiredMixin, View):
                 game_engine.start_game(request, initial_state)
             except IntegrityError:
                 pass
+        else:
+            game_engine.player1_card_usage(request)
+            game_engine.check_victory_conditions(request, request.user)
         player1_state = models.Player1State.objects.get(user=request.user)
         match = models.MatchState.objects.get(player1=player1_state)
         player2_state = models.Player2State.objects.get()

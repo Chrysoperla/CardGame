@@ -30,7 +30,7 @@ def start_game(request, initial_state):
                                                  card1=player2_cards[0].id, card2=player2_cards[1].id, card3=player2_cards[2].id,
                                                  card4=player2_cards[3].id, card5=player2_cards[4].id)
     match_state = models.MatchState.objects.create(initial_state=initial_state, player1=player1, player2=player2)
-    roll = first_turn_roll(player1, player2)
+    roll = first_turn_roll(user)
     if roll == player1:
         return "Player1 turn"
     elif roll == player2:
@@ -57,6 +57,7 @@ def player1_card_usage(request):
             for i in range(0, 5):
                 if button == buttons[i]:
                     card_to_use_id = which_card[i]
+                    card_number_in_hand = i
                     break
             deck = cards.create_deck()
             card_to_use = None
@@ -67,19 +68,21 @@ def player1_card_usage(request):
             match = models.MatchState.objects.get(player1=player1_state)
             card_to_use.usage(1, match)
             card_replacement = replace_card()
-            player1_state.card1 = card_replacement.id
+            which_card[card_number_in_hand] = card_replacement.id
+            player1_state.save()
 
 
 def player2_round_start(user):
-    player2 = models.MatchState.objects.get(user=user).player2
+    player2 = models.MatchState.objects.get(player1=user).player2
     player2.gold += player2.mine
     player2.mana += player2.fountain
     player2.food += player2.farm
     return player2.gold, player2.mana, player2.food
 
-def player2_card_choice(user):
+def player2_card_choice(request, user):
     # an algorhytm that the server uses to make the non-human player make its moves
-    player2 = models.MatchState.objects.get(user=user).player2
+    player1_state = models.Player1State.objects.get(user=request.user)
+    player2 = models.MatchState.objects.get(player1=player1_state).player2
     player2_round_start(user)
     player2_deck = [player2.card1, player2.card2, player2.card3, player2.card4, player2.card5]
     for card in player2_deck:
@@ -104,12 +107,12 @@ def player2_card_choice(user):
                 return new_card
     player2.card1.discard()
 
-def check_victory_conditions(user):
+def check_victory_conditions(request, user):
     # function that checks if any of victory conditions has been met. Returns 0 if none of them were met, 1 if
     # player1 wins or 2 if player 2 wins
-    match_initial_state = models.MatchState.objects.get(user=user).initial_state
-    player1 = models.MatchState.objects.get(user=user).player1
-    player2 = models.MatchState.objects.get(user=user).player2
+    player1 = models.Player1State.objects.get(user=request.user)
+    player2 = models.Player1State.objects.get(user=request.user)
+    match_initial_state = models.MatchState.objects.get(player1=player1).initial_state
     is_game_over = 0
     if player1.tower < 1:
         is_game_over = 2
@@ -118,6 +121,7 @@ def check_victory_conditions(user):
     if player2.tower < 1:
         is_game_over = 1
         result = "Your opponent's tower has been destroyed"
+        print(result)
         return is_game_over, result
     if player1.tower >= match_initial_state.cov_tower:
         is_game_over = 1
@@ -137,3 +141,14 @@ def check_victory_conditions(user):
         return is_game_over, result
     return is_game_over
 
+def less_than_zero_check(number):
+    # a function that makes sure that tower / wall / resources are not negative numbers
+    if number < 0:
+        number = 0
+    return number
+
+def less_than_one_check(number):
+    # a function that makes sure that production levels are positive numbers
+    if number < 0:
+        number = 0
+    return number
