@@ -33,6 +33,13 @@ class LogoutView(View):
         logout(request)
         return redirect('/')
 
+class Profile(View):
+    def get(self, request):
+        user = request.user
+        player = models.HumanPlayer.objects.get(user=user)
+        ctx = {'username': request.user.username, 'user': user, 'player': player}
+        return render(request, 'profile.html', ctx)
+
 
 class GameModeChoice(LoginRequiredMixin, View):
     def get(self, request):
@@ -101,7 +108,7 @@ class Match(LoginRequiredMixin, View):
                 pass
         else:
             game_engine.player1_card_usage(request)
-            game_engine.check_victory_conditions(request, request.user)
+            game_engine.check_victory_conditions(request)
         player1_state = models.Player1State.objects.get(user=request.user)
         match = models.MatchState.objects.get(player1=player1_state)
         player2_state = models.Player2State.objects.get()

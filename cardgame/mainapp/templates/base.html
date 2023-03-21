@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     {% block head %}
       {% block style %}
     {% endblock%}
@@ -10,6 +12,7 @@
   </head>
   <body>
   <header>
+    <a href="/"><img src="{% static 'home.png' %}"></a>
     {% if user.is_authenticated %}
     Hello, {{username}}!
     <button><a href="{% url 'logout' %}">Log out</a></button>

@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from mainapp.views import Home, GameModeChoice, LoginView, LogoutView, Match
+from mainapp.views import Home, GameModeChoice, LoginView, LogoutView, Match, Profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +23,6 @@ urlpatterns = [
     path('play/', GameModeChoice.as_view(), name='gamemodechoice'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('match/', Match.as_view(), name='match')
+    path('match/', Match.as_view(), name='match'),
+    path('profile/', Profile.as_view(), name='profile')
 ]

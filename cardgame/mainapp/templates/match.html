@@ -1,25 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="cov_desc">
-  Conditions of victory:<br>
-  Tower: {{ match.initial_state.cov_tower }} <br>
-  Resources: {{ match.initial_state.cov_resources}} <br>
-</div>
-<div class="name">{{match.player1.user.username}}</div>
-<div class="mine">MINE {{ match.player1.mine }}</div>
-<div class="gold">GOLD: {{ match.player1.gold }}</div>
-<div class="fountain">FOUNTAIN {{ match.player1.fountain }}</div>
-<div class="mana">MANA: {{ match.player1.mana }}</div>
-<div class="farm">FARM {{ match.player1.farm }}</div>
-<div class="food">FOOD: {{ match.player1.food }}</div>
-<!--zmienić nazwę bota!-->
-<div class="name">COMPUTER</div>
-<div class="mine">MINE {{ match.player2.mine }}</div>
-<div class="gold">GOLD: {{ match.player2.gold }}</div>
-<div class="fountain">FOUNTAIN {{ match.player2.fountain }}</div>
-<div class="mana">MANA: {{ match.player2.mana }}</div>
-<div class="farm">FARM {{ match.player2.farm }}</div>
-<div class="food">FOOD: {{ match.player2.food }}</div>
+<h2 class="match_cov">Conditions of victory</h2>
+<table class="match_cov">
+    <tr>
+        <th>Tower: {{ match.initial_state.cov_tower }}</th>
+        <th>Resources: {{ match.initial_state.cov_resources}}</th>
+    </tr>
+</table>
+
+<table class="player1_state">
+    <tr>
+        <th>
+            <div class="name">{{match.player1.user.username}}</div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div class="mine">MINE {{ match.player1.mine }}</div>
+            <div class="gold">GOLD: {{ match.player1.gold }}</div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div class="fountain">FOUNTAIN {{ match.player1.fountain }}</div>
+            <div class="mana">MANA: {{ match.player1.mana }}</div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div class="farm">FARM {{ match.player1.farm }}</div>
+            <div class="food">FOOD: {{ match.player1.food }}</div>
+        </th>
+    </tr>
+</table>
 
 <div class="second_last_card">
   {% if match.second_last_card == None %}
@@ -35,6 +48,32 @@
   {{ last_card_name }}
   {% endif %}
 </div>
+
+<table class="player2_state">
+    <tr>
+        <th>
+            <div class="name">COMPUTER</div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div class="mine">MINE {{ match.player2.mine }}</div>
+            <div class="gold">GOLD: {{ match.player2.gold }}</div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div class="fountain">FOUNTAIN {{ match.player2.fountain }}</div>
+            <div class="mana">MANA: {{ match.player2.mana }}</div>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <div class="farm">FARM {{ match.player2.farm }}</div>
+            <div class="food">FOOD: {{ match.player2.food }}</div>
+        </th>
+    </tr>
+</table>
 
 <div class="tower">{{match.player1.tower}}</div>
 <div class="wall">{{match.player1.wall}}</div>

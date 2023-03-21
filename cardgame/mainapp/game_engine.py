@@ -70,6 +70,7 @@ def player1_card_usage(request):
             card_replacement = replace_card()
             which_card[card_number_in_hand] = card_replacement.id
             player1_state.save()
+            return
 
 
 def player2_round_start(user):
@@ -107,7 +108,7 @@ def player2_card_choice(request, user):
                 return new_card
     player2.card1.discard()
 
-def check_victory_conditions(request, user):
+def check_victory_conditions(request):
     # function that checks if any of victory conditions has been met. Returns 0 if none of them were met, 1 if
     # player1 wins or 2 if player 2 wins
     player1 = models.Player1State.objects.get(user=request.user)
@@ -121,7 +122,7 @@ def check_victory_conditions(request, user):
     if player2.tower < 1:
         is_game_over = 1
         result = "Your opponent's tower has been destroyed"
-        print(result)
+        print(is_game_over)
         return is_game_over, result
     if player1.tower >= match_initial_state.cov_tower:
         is_game_over = 1

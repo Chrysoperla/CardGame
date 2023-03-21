@@ -1,0 +1,37 @@
+header {
+    margin-bottom: 50px;
+}
+
+
+body {
+    background-image: url ("mainapp/static/background.jpg");
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+div.home_link {
+    font-size: 25px;
+    text-align: center;
+}
+
+table.match_cov {
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2.match_cov {
+    text-align: center;
+    font-size: 30px;
+}
+
+table.player1_state {
+    margin-right: auto;
+    margin-left: 0px;
+    }
+
+table.player2_state {
+    margin-right: 0px;
+    margin-left: auto;
+}

@@ -1,4 +1,5 @@
-from mainapp import models
+from mainapp import models, game_engine
+
 
 class Card:
 
@@ -35,6 +36,7 @@ class Card:
             damage_wall_difference = damage - enemy_side.wall
             enemy_side.wall = 0
             enemy_side.tower -= damage_wall_difference
+            enemy_side.tower = game_engine.less_than_zero_check(enemy_side.tower)
         return enemy_side.wall, enemy_side.tower
 
     def friendly_fire_calculation(self, damage, player, match):
@@ -45,6 +47,7 @@ class Card:
             damage_wall_difference = damage - my_side.wall
             my_side.wall = 0
             my_side.tower -= damage_wall_difference
+            my_side.tower = game_engine.less_than_zero_check(my_side.tower)
         return my_side.wall, my_side.tower
 
 
@@ -92,6 +95,7 @@ class ArcaneButterfly(Card):
         enemy_side = super().select_enemy_side(player, match)
         my_side = super().select_my_side(player, match)
         my_side.mana -= self.cost
+        my_side.save()
         if my_side.fountain > enemy_side.fountain:
             super().damage_calculation(5, player, match)
         else:
@@ -119,6 +123,7 @@ class FelineFamiliar(Card):
         my_side.food -= self.cost
         my_side.fountain += 1
         my_side.farm += 1
+        my_side.save()
         match.second_last_card = match.last_card
         match.last_card = self.id
         my_side.save()
