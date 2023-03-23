@@ -153,3 +153,72 @@ def less_than_one_check(number):
     if number < 0:
         number = 0
     return number
+
+def get_card_names_desc(ctx, last_card_id, second_last_card_id, player_cards_ids):
+    # fills ctx for html templates with names, descriptions, color and cost of cards
+    card_list = cards.create_card_list()
+    for card in card_list:
+        if last_card_id == card.id:
+            last_card_name = card.name
+            ctx["last_card_name"] = last_card_name
+            last_card_desc = card.description
+            ctx["last_card_description"] = last_card_desc
+            last_card_color = card.color
+            ctx["last_card_color"] = last_card_color
+            last_card_cost = card.cost
+            ctx["last_card_cost"] = last_card_cost
+        if second_last_card_id == card.id:
+            second_last_card_name = card.name
+            ctx["second_last_card_name"] = second_last_card_name
+            second_last_card_desc = card.description
+            ctx["second_last_card_description"] = second_last_card_desc
+            second_last_card_color = card.color
+            ctx["second_last_card_color"] = second_last_card_color
+            second_last_card_cost = card.cost
+            ctx["second_last_card_cost"] = second_last_card_cost
+        if player_cards_ids[0] == card.id:
+            card1_name = card.name
+            ctx["card1_name"] = card1_name
+            card1_desc = card.description
+            ctx["card1_description"] = card1_desc
+            card1_color = card.color
+            ctx["card1_color"] = card1_color
+            card1_cost = card.cost
+            ctx["card1_cost"] = card1_cost
+        if player_cards_ids[1] == card.id:
+            card2_name = card.name
+            ctx["card2_name"] = card2_name
+            card2_desc = card.description
+            ctx["card2_description"] = card2_desc
+            card2_color = card.color
+            ctx["card2_color"] = card2_color
+            card2_cost = card.cost
+            ctx["card2_cost"] = card2_cost
+        if player_cards_ids[2] == card.id:
+            card3_name = card.name
+            ctx["card3_name"] = card3_name
+            card3_desc = card.description
+            ctx["card3_description"] = card3_desc
+            card3_color = card.color
+            ctx["card3_color"] = card3_color
+            card3_cost = card.cost
+            ctx["card3_cost"] = card3_cost
+        if player_cards_ids[3] == card.id:
+            card4_name = card.name
+            ctx["card4_name"] = card4_name
+            card4_desc = card.description
+            ctx["card4_description"] = card4_desc
+            card4_color = card.color
+            ctx["card4_color"] = card4_color
+            card4_cost = card.cost
+            ctx["card4_cost"] = card4_cost
+        if player_cards_ids[4] == card.id:
+            card5_name = card.name
+            ctx["card5_name"] = card5_name
+            card5_desc = card.description
+            ctx["card5_description"] = card5_desc
+            card5_color = card.color
+            ctx["card5_color"] = card5_color
+            card5_cost = card.cost
+            ctx["card5_cost"] = card5_cost
+    return ctx

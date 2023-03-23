@@ -60,6 +60,7 @@ class TinyMouse(Card):
         self.color = "G"
         self.cost = 2
         self.rarity = 3
+        self.description = "Deals 2 damage. The opponent loses 10 food."
         # self.image =
 
     def usage(self, player, match):
@@ -88,6 +89,7 @@ class ArcaneButterfly(Card):
         self.color = "B"
         self.cost = 2
         self.rarity = 2
+        self.description = "Deals 5 damage if your fountain level is higher that your opponent's. Otherwise deals 3 damage"
         # self.image =
 
     def usage(self, player, match):
@@ -115,6 +117,7 @@ class FelineFamiliar(Card):
         self.color = "G"
         self.cost = 8
         self.rarity = 1
+        self.description = "Increases both your farm level and your fountain level by 1"
         # self.image =
 
     def usage(self, player, match):
@@ -138,6 +141,7 @@ class FoamReptile(Card):
         self.color = "G"
         self.cost = 7
         self.rarity = 1
+        self.description = "Deals 15 damage if enemy wall is 15 or higher. Otherwise, deals 8 damage"
         # self.image =
 
     def usage(self, player, match):
@@ -164,6 +168,7 @@ class LoyalMount(Card):
         self.color = "R"
         self.cost = 10
         self.rarity = 1
+        self.description = "You get gold and food equal to your corresponding production levels. Also, increases wall by 5"
         # self.image =
 
     def usage(self, player, match):
@@ -187,20 +192,23 @@ class CommonWolf(Card):
         self.color = "G"
         self.cost = 3
         self.rarity = 2
+        self.description = "Deals 5 damage"
         # self.image =
 
     def usage(self, player, match):
         # Deals 5 damage
         enemy_side = super().select_enemy_side(player, match)
         my_side = super().select_my_side(player, match)
-        my_side.food -= self.cost
+        print(my_side)
+        print(enemy_side)
+        my_side.food = my_side.food + self.cost
+        my_side.save()
         super().damage_calculation(5, player, match)
+        enemy_side.save()
         match.second_last_card = match.last_card
         match.last_card = self.id
-        enemy_side.save()
-        my_side.save()
         match.save()
-        return enemy_side.wall, enemy_side.tower
+        return
 
 class Werewolf(Card):
     def __init__(self):
@@ -210,6 +218,7 @@ class Werewolf(Card):
         self.color = "B"
         self.cost = 9
         self.rarity = 1
+        self.description = "Deals 15 damage to your opponent. You take 5 damage"
         # self.image =
 
     def usage(self, player, match):
@@ -234,6 +243,7 @@ class Dwarves(Card):
         self.color = "R"
         self.cost = 10
         self.rarity = 1
+        self.description = "You get 1 mine level. Additionally, your tower and wall get increased by 5"
         # self.image =
 
     def usage(self, player, match):
@@ -257,6 +267,7 @@ class Mermaid(Card):
         self.color = "B"
         self.cost = 7
         self.rarity = 1
+        self.description = "Opponent's wall takes 15 damage"
         # self.image =
 
     def usage(self, player, match):
@@ -283,6 +294,7 @@ class Orcs(Card):
         self.color = "R"
         self.cost = 6
         self.rarity = 2
+        self.description = "Deals 8 damage to your opponent. Your tower +3"
         # self.image =
 
     def usage(self, player, match):
@@ -307,6 +319,7 @@ class FriendlyFairy(Card):
         self.color = "B"
         self.cost = 4
         self.rarity = 2
+        self.description = "Your fountain level gets increased by 1"
         # self.image =
 
     def usage(self, player, match):
@@ -321,12 +334,21 @@ class FriendlyFairy(Card):
         return my_side.fountain
 
 def create_deck():
+    # creates a list of all the cards. The same card will appear in the deck the number of times its rarity applies.
     deck = []
     for subclass in Card.__subclasses__():
         for i in range(1, subclass().rarity+1):
             card = subclass()
             deck.append(card)
     return deck
+
+def create_card_list():
+    # creates a list of all the cards. Every card will appear only once. For iterations
+    card_list = []
+    for subclass in Card.__subclasses__():
+        card = subclass()
+        card_list.append(card)
+    return card_list
 
 
 

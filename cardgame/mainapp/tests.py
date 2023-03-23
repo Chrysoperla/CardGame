@@ -1,9 +1,11 @@
+import pytest
 from django.contrib.auth import authenticate, login
 from django.test import TestCase
 from mainapp import models, game_engine
 from django.core.exceptions import ObjectDoesNotExist
 
 
+@pytest.mark.django_db
 def test_start_new_match(request):
     user = authenticate(username='PyTester', password='passed')
     if user is not None:

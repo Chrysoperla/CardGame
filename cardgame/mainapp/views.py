@@ -100,8 +100,7 @@ class Match(LoginRequiredMixin, View):
                 or request.GET.get(buttons[3]) or request.GET.get(buttons[4])):
             # UWAGA! NA RAZIE TYLKO JEDEN INITIAL STATE
             initial_state = models.InitialState.objects.get(tower=20, wall=10, mine=3, fountain=2, farm=3, gold=10,
-                                                            mana=15,
-                                                            food=10, cov_tower=60, cov_resources=250)
+                                                            mana=15, food=10, cov_tower=60, cov_resources=250)
             try:
                 game_engine.start_game(request, initial_state)
             except IntegrityError:
@@ -115,16 +114,12 @@ class Match(LoginRequiredMixin, View):
         player1_state.save()
         match.save()
         player2_state.save()
-        card_names = [models.CARDS[match.player1.card1-1], models.CARDS[match.player1.card2-1],
-                      models.CARDS[match.player1.card3-1], models.CARDS[match.player1.card4-1],
-                      models.CARDS[match.player1.card5-1]]
-        card1_name = card_names[0][1]
-        card2_name = card_names[1][1]
-        card3_name = card_names[2][1]
-        card4_name = card_names[3][1]
-        card5_name = card_names[4][1]
-        ctx = {'username': request.user.username, "match": match, "card1_name": card1_name, "card2_name": card2_name,
-               "card3_name": card3_name, "card4_name": card4_name, "card5_name": card5_name}
+        ctx = {'username': request.user.username, "match": match}
+        game_engine.get_card_names_desc(ctx, match.last_card, match.second_last_card, [match.player1.card1,
+                                                                                       match.player1.card2,
+                                                                                       match.player1.card3,
+                                                                                       match.player1.card4,
+                                                                                       match.player1.card5])
         try:
             last_card_name = models.CARDS[match.last_card - 1][1]
             ctx["last_card_name"] = last_card_name

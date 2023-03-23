@@ -4,9 +4,9 @@ header {
 
 
 body {
-    background-image: url ("mainapp/static/background.jpg");
-    margin-left: 150px;
-    margin-right: 150px;
+    background-image: url("background.jpg");
+    margin-left: 8%;
+    margin-right: 8%;
 }
 
 div.home_link {
@@ -19,6 +19,8 @@ table.match_cov {
     font-weight: bold;
     margin-left: auto;
     margin-right: auto;
+    background-color: white;
+
 }
 
 h2.match_cov {
@@ -27,11 +29,90 @@ h2.match_cov {
 }
 
 table.player1_state {
-    margin-right: auto;
-    margin-left: 0px;
+    content: 10%;
+    background-color: white;
+    padding: 5%;
+    float: left;
+    border: solid black;
+    border-width: 3px;
     }
 
+div.recent_cards {
+
+    margin-top: 80px;
+    margin-right: 20%;
+    margin-left: 20%;
+    content: 30%;
+}
+
 table.player2_state {
+    content: 10%;
     margin-right: 0px;
     margin-left: auto;
+    background-color: white;
+    padding: 5%;
+    float: right;
+    border: solid black;
+    border-width: 3px;
+}
+
+div.building_box {
+    text-align: center;
+    background-color: white;
+}
+
+div.tower {
+    border: 1px black;
+    display: inline-block;
+    margin-right: 8%;
+    margin-left: 8%;
+}
+
+div.wall {
+    border: 1px black;
+    display: inline-block;
+    margin-right: 8%;
+    margin-left: 8%;
+}
+
+div.player_deck {
+    background-color: rgba(227, 226, 225, 0.5);
+    text-align: center;
+}
+
+div.card {
+  border-radius: 25px;
+  border: solid black;
+  border-width: 2px;
+  background-color: white;
+  padding: 20px;
+  width: 150px;
+  height: 250px;
+  display: inline-block;
+  text-align: center;
+  position: relative;
+}
+
+input.btn {
+    float: left;
+    align: bottom;
+}
+
+div.recent_cards {
+    text-align: center;
+}
+
+table.card_box {
+    font-style: normal;
+    display: inline-block;
+    text-align: center;
+}
+
+div.card_cost {
+    position: absolute;
+    bottom: 0;
+    border-radius: 25px;
+    border: solid black;
+    border-width: 1px;
+    padding: 5px;
 }
