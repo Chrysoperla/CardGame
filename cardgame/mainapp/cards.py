@@ -114,7 +114,7 @@ class FelineFamiliar(Card):
         super().__init__()
         self.id = 3
         self.name = "Feline Familiar"
-        self.color = "G"
+        self.color = "B"
         self.cost = 8
         self.rarity = 1
         self.description = "Increases both your farm level and your fountain level by 1"
@@ -199,9 +199,7 @@ class CommonWolf(Card):
         # Deals 5 damage
         enemy_side = super().select_enemy_side(player, match)
         my_side = super().select_my_side(player, match)
-        print(my_side)
-        print(enemy_side)
-        my_side.food = my_side.food + self.cost
+        my_side.food = my_side.food - self.cost
         my_side.save()
         super().damage_calculation(5, player, match)
         enemy_side.save()

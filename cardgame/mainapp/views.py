@@ -95,6 +95,7 @@ class GameModeChoice(LoginRequiredMixin, View):
 
 class Match(LoginRequiredMixin, View):
     def get(self, request):
+        is_game_over = 0
         buttons = ['card1_usage', 'card2_usage', 'card3_usage', 'card4_usage', 'card5_usage']
         if not (request.GET.get(buttons[0]) or request.GET.get(buttons[1]) or request.GET.get(buttons[2])
                 or request.GET.get(buttons[3]) or request.GET.get(buttons[4])):
@@ -107,7 +108,15 @@ class Match(LoginRequiredMixin, View):
                 pass
         else:
             game_engine.player1_card_usage(request)
-            game_engine.check_victory_conditions(request)
+            try:
+                check_if_game_over = game_engine.check_victory_conditions(request)
+                print(check_if_game_over)
+                is_game_over = check_if_game_over[0]
+                print(is_game_over)
+                result = check_if_game_over[1]
+                print(result)
+            except TypeError:
+                pass
         player1_state = models.Player1State.objects.get(user=request.user)
         match = models.MatchState.objects.get(player1=player1_state)
         player2_state = models.Player2State.objects.get()
@@ -120,6 +129,15 @@ class Match(LoginRequiredMixin, View):
                                                                                        match.player1.card3,
                                                                                        match.player1.card4,
                                                                                        match.player1.card5])
+        if is_game_over != 0:
+            ctx['is_game_over'] = is_game_over
+            ctx['result'] = result
+            human_player = models.HumanPlayer.objects.get(user=request.user)
+            human_player.game_count += 1
+            human_player.save()
+            match.delete()
+            player1_state.delete()
+            player2_state.delete()
         try:
             last_card_name = models.CARDS[match.last_card - 1][1]
             ctx["last_card_name"] = last_card_name

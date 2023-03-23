@@ -106,6 +106,7 @@
 
         </table>
     </div>
+
 <div class="building_box">
 <div class="tower">TOWER<br>{{match.player1.tower}}</div>
 <div class="wall">WALL<br>{{match.player1.wall}}</div>
@@ -113,6 +114,11 @@
 <div class="tower">TOWER<br>{{match.player2.tower}}</div>
 </div>
 <br>
+{% if is_game_over == 1 or is_game_over == 2 %}
+<div class="player_deck">
+    <h1>{{ result }}</h1>
+</div>
+{% else %}
 <div class="player_deck">
 <div class="card">
   {{card1_name}}<br><br>
@@ -169,7 +175,7 @@
   <button>Discard</button>
 </div>
 </div>
-
+{% endif %}
 {% endblock %}
 
 <!--{% if CARD.color == "R"%}-->
