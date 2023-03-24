@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<p>
+  You are a general of an army in a city-state that wages war with a neighbour city-state. The power of your kingdom is
+  determined by the height of your tower. You can compare it to health points. The tower is protected by wall that takes
+  on itself all the attacks that would otherwise damage the tower.
+</p>
+<p>
+  In order to lead your army to victory, first you have to recruit some mercenary. The list of available troops is the 5
+  cards in your hand. They can have plenty of different effects, from attacking your enemy to (re)building your own
+  tower. However, no mercenary would follow you for free. You have to pay them in resources they have most interest in.
+  And so humans might be more interested in <b style="color:red;">GOLD</b>, beasts in <b style="color:green;">FOOD</b>
+  and magic adepts in some <b style="color:blue;">MANA</b> needed to cast their spells. And so, every turn you get
+  <b style="color:red;">GOLD</b> equal to your <b style="color:red;">MINE</b> level, the more
+  <b style="color:green;">FARM</b> the more <b style="color:green;">FOOD</b> you get and <b style="color:blue;">MANA</b>
+  regenerates thanks to magic <b style="color:blue;">FOUNTAIN</b>. The cost of hiring a mercenary is written at the
+  bottom of the card and the resources needed are presented by the card color.
+</p>
+<ul>
+  You can achieve victory in 3 ways:
+  <li>
+    Destroy your opponent's tower
+  </li>
+  <li>
+    Build a tower high enough to terrify your enemy and make them surrender
+  </li>
+  <li>
+    Collect so many resources that your enemy gives up
+  </li>
+</ul>
+<p>
+  So get ready and lead you army to win. For the kingdom!
+</p>
+
+
+{% endblock %}

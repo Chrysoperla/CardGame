@@ -280,3 +280,17 @@ def add_card_colors_to_html(last_card_id, second_last_card_id, player_cards_ids)
                                                                    card5_color]]
     return colors_for_styles
 
+def initial_state_check(tower, wall, mine, gold, fountain, mana, farm, food, cov_tower, cov_resources):
+    if tower < 1 or tower > 999 or cov_tower < 1 or cov_tower > 999:
+        error_message = "The tower must be higher that 0 and lower than 1000"
+    elif wall < 0 or wall > 999:
+        error_message = "The wall must be higher or equal 0 and lower than 1000"
+    elif (mine or fountain or farm) < 1 or (mine or fountain or farm) > 99:
+        error_message = "The production levels must be higher that 0 and lower than 100"
+    elif (gold or mana or food) < 0 or (gold or mana or food) > 999 or cov_resources < 0 or cov_resources > 999:
+        error_message = "The resource numbers must be higher or equal 0 and lower than 1000"
+    elif tower >= cov_tower:
+        error_message = "The initial height of the tower must be lower than the victorious one"
+    elif (gold or mana or food) >= cov_resources:
+        error_message = "The initial amounts of resources must be lower than the victorious one"
+    return error_message

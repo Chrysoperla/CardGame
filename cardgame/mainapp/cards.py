@@ -173,13 +173,12 @@ class LoyalMount(Card):
     def usage(self, player, match):
         # You get gold and food equal to your corresponding production levels. Also, increases wall by 5
         my_side = super().select_my_side(player, match)
-        my_side.gold -= self.cost
+        my_side.gold = my_side.gold - self.cost + my_side.mine
         my_side.food += my_side.farm
-        my_side.gold += my_side.mine
         my_side.wall += 5
+        my_side.save()
         match.second_last_card = match.last_card
         match.last_card = self.id
-        my_side.save()
         match.save()
         return my_side.food, my_side.gold, my_side.wall
 
