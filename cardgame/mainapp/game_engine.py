@@ -2,17 +2,17 @@ from mainapp import cards, models
 from random import sample, randint
 
 def first_turn_roll(request, user):
+    # chooses a player who makes the first move of the game: player1 (roll=1) or player2 (roll=2)
     roll = randint(1, 2)
     if roll == 1:
-        announcement = "Player1 was drawn to get the first turn of the match"
-        return announcement
+        return
     elif roll == 2:
-        announcement = "Player2 was drawn to get the first turn of the match"
-        player2_card_choice(request, user)
-        return announcement
+        player2_card_choice(request)
+        return
 
 
 def start_game(request, initial_state):
+    # starts a game match based on given initial state
     user = request.user
     deck = cards.create_deck()
     player1_cards = sample(deck, k=5)
@@ -38,20 +38,26 @@ def start_game(request, initial_state):
 
 
 def replace_card():
+    # chooses a random card to replace a used / discarded one
     deck = cards.create_deck()
     random_card = sample(deck, 1)
     return random_card[0]
 
 
 def player1_round_start(user):
-    player1 = models.MatchState.objects.get(user=user).player1
+    # increases player1's resources by a number equal to their production level at the start of their every round but
+    # first
+    player1 = models.Player1State.objects.get(user=user)
     player1.gold += player1.mine
     player1.mana += player1.fountain
     player1.food += player1.farm
-    return player1.gold, player1.mana, player1.food
+    player1.save()
+    return
 
 
 def player1_card_usage(request):
+    # calls usage function of the card that had its "use" button clicked. After that moves the card to "last used cast"
+    # spot and replaces the card
     buttons = ['card1_usage', 'card2_usage', 'card3_usage', 'card4_usage', 'card5_usage']
     player1_state = models.Player1State.objects.get(user=request.user)
     which_card = [player1_state.card1, player1_state.card2, player1_state.card3, player1_state.card4, player1_state.card5]
@@ -81,24 +87,27 @@ def player1_card_usage(request):
                 player1_state.card4 = card_replacement.id
             elif card_number_in_hand == 4:
                 player1_state.card5 = card_replacement.id
+            player1_state.save()
             return
 
 
 def player2_round_start(user):
+    # increases player2's resources by a number equal to their production level at the start of their every round but
+    # first
     player1_state = models.Player1State.objects.get(user=user)
     player2 = models.MatchState.objects.get(player1=player1_state).player2
     player2.gold += player2.mine
     player2.mana += player2.fountain
     player2.food += player2.farm
-    return player2.gold, player2.mana, player2.food
+    player2.save()
+    return
 
 
-def player2_card_choice(request, user):
+def player2_card_choice(request):
     # an algorhytm that the server uses to make the non-human player make its moves
     player1_state = models.Player1State.objects.get(user=request.user)
     match = models.MatchState.objects.get(player1=player1_state)
     player2 = models.MatchState.objects.get(player1=player1_state).player2
-    player2_round_start(user)
     player2_deck = [player2.card1, player2.card2, player2.card3, player2.card4, player2.card5]
     card_list = cards.create_card_list()
     for i in range(0, 5):
@@ -182,8 +191,6 @@ def get_card_names_desc(ctx, last_card_id, second_last_card_id, player_cards_ids
             ctx["last_card_name"] = last_card_name
             last_card_desc = card.description
             ctx["last_card_description"] = last_card_desc
-            last_card_color = card.color
-            ctx["last_card_color"] = last_card_color
             last_card_cost = card.cost
             ctx["last_card_cost"] = last_card_cost
         if second_last_card_id == card.id:
@@ -191,8 +198,6 @@ def get_card_names_desc(ctx, last_card_id, second_last_card_id, player_cards_ids
             ctx["second_last_card_name"] = second_last_card_name
             second_last_card_desc = card.description
             ctx["second_last_card_description"] = second_last_card_desc
-            second_last_card_color = card.color
-            ctx["second_last_card_color"] = second_last_card_color
             second_last_card_cost = card.cost
             ctx["second_last_card_cost"] = second_last_card_cost
         if player_cards_ids[0] == card.id:

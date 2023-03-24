@@ -97,7 +97,6 @@ class ArcaneButterfly(Card):
         enemy_side = super().select_enemy_side(player, match)
         my_side = super().select_my_side(player, match)
         my_side.mana -= self.cost
-        my_side.save()
         if my_side.fountain > enemy_side.fountain:
             super().damage_calculation(5, player, match)
         else:
@@ -105,7 +104,7 @@ class ArcaneButterfly(Card):
         match.second_last_card = match.last_card
         match.last_card = self.id
         enemy_side.save()
-        my_side.save()
+        # my_side.save()
         match.save()
         return enemy_side.wall, enemy_side.tower
 
@@ -224,11 +223,12 @@ class Werewolf(Card):
         enemy_side = super().select_enemy_side(player, match)
         my_side = super().select_my_side(player, match)
         my_side.mana -= self.cost
+        my_side.save()
         super().damage_calculation(15, player, match)
+        enemy_side.save()
         super().friendly_fire_calculation(5, player, match)
         match.second_last_card = match.last_card
         match.last_card = self.id
-        enemy_side.save()
         my_side.save()
         match.save()
         return enemy_side.wall, enemy_side.tower, my_side.wall, my_side.tower

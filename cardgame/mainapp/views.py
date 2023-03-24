@@ -110,19 +110,22 @@ class Match(LoginRequiredMixin, View):
             game_engine.player1_card_usage(request)
             try:
                 check_if_game_over = game_engine.check_victory_conditions(request)
-                print(check_if_game_over)
                 is_game_over = check_if_game_over[0]
-                print(is_game_over)
                 result = check_if_game_over[1]
-                print(result)
             except TypeError:
                 pass
+            game_engine.player2_round_start(request.user)
+            game_engine.player2_card_choice(request)
+            try:
+                check_if_game_over = game_engine.check_victory_conditions(request)
+                is_game_over = check_if_game_over[0]
+                result = check_if_game_over[1]
+            except TypeError:
+                pass
+            game_engine.player1_round_start(request.user)
         player1_state = models.Player1State.objects.get(user=request.user)
         match = models.MatchState.objects.get(player1=player1_state)
         player2_state = models.Player2State.objects.get()
-        player1_state.save()
-        match.save()
-        player2_state.save()
         ctx = {'username': request.user.username, "match": match}
         game_engine.get_card_names_desc(ctx, match.last_card, match.second_last_card, [match.player1.card1,
                                                                                        match.player1.card2,
