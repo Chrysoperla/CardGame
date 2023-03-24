@@ -37,8 +37,19 @@ table.player1_state {
     border-width: 3px;
     }
 
-div.recent_cards {
+div.mine {color: red;}
 
+div.gold {color: red;}
+
+div.fountain {color: blue}
+
+div.mana {color: blue}
+
+div.farm {color: green}
+
+div.food {color: green}
+
+div.recent_cards {
     margin-top: 80px;
     margin-right: 20%;
     margin-left: 20%;

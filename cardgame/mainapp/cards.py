@@ -114,7 +114,7 @@ class FelineFamiliar(Card):
         super().__init__()
         self.id = 3
         self.name = "Feline Familiar"
-        self.color = "B"
+        self.color = "G"
         self.cost = 8
         self.rarity = 1
         self.description = "Increases both your farm level and your fountain level by 1"

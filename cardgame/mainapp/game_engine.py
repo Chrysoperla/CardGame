@@ -200,8 +200,6 @@ def get_card_names_desc(ctx, last_card_id, second_last_card_id, player_cards_ids
             ctx["card1_name"] = card1_name
             card1_desc = card.description
             ctx["card1_description"] = card1_desc
-            card1_color = card.color
-            ctx["card1_color"] = card1_color
             card1_cost = card.cost
             ctx["card1_cost"] = card1_cost
         if player_cards_ids[1] == card.id:
@@ -209,8 +207,6 @@ def get_card_names_desc(ctx, last_card_id, second_last_card_id, player_cards_ids
             ctx["card2_name"] = card2_name
             card2_desc = card.description
             ctx["card2_description"] = card2_desc
-            card2_color = card.color
-            ctx["card2_color"] = card2_color
             card2_cost = card.cost
             ctx["card2_cost"] = card2_cost
         if player_cards_ids[2] == card.id:
@@ -218,8 +214,6 @@ def get_card_names_desc(ctx, last_card_id, second_last_card_id, player_cards_ids
             ctx["card3_name"] = card3_name
             card3_desc = card.description
             ctx["card3_description"] = card3_desc
-            card3_color = card.color
-            ctx["card3_color"] = card3_color
             card3_cost = card.cost
             ctx["card3_cost"] = card3_cost
         if player_cards_ids[3] == card.id:
@@ -227,8 +221,6 @@ def get_card_names_desc(ctx, last_card_id, second_last_card_id, player_cards_ids
             ctx["card4_name"] = card4_name
             card4_desc = card.description
             ctx["card4_description"] = card4_desc
-            card4_color = card.color
-            ctx["card4_color"] = card4_color
             card4_cost = card.cost
             ctx["card4_cost"] = card4_cost
         if player_cards_ids[4] == card.id:
@@ -236,8 +228,50 @@ def get_card_names_desc(ctx, last_card_id, second_last_card_id, player_cards_ids
             ctx["card5_name"] = card5_name
             card5_desc = card.description
             ctx["card5_description"] = card5_desc
-            card5_color = card.color
-            ctx["card5_color"] = card5_color
             card5_cost = card.cost
             ctx["card5_cost"] = card5_cost
+    colors_for_styles = add_card_colors_to_html(last_card_id, second_last_card_id, player_cards_ids)
+    ctx["last_card_color"] = colors_for_styles[0]
+    ctx["second_last_card_color"] = colors_for_styles[1]
+    ctx["card1_color"] = colors_for_styles[2][0]
+    ctx["card2_color"] = colors_for_styles[2][1]
+    ctx["card3_color"] = colors_for_styles[2][2]
+    ctx["card4_color"] = colors_for_styles[2][3]
+    ctx["card5_color"] = colors_for_styles[2][4]
     return ctx
+
+def color_interpreter(color):
+    # changes name color from one-letter abbreviation to HEX color for coloring cards
+    if color == "R":
+        hex_color = "#ff968f"
+    if color == "B":
+        hex_color = "#8fb0ff"
+    if color == "G":
+        hex_color = "#76cf79"
+    return hex_color
+def add_card_colors_to_html(last_card_id, second_last_card_id, player_cards_ids):
+    card_list = cards.create_card_list()
+    for card in card_list:
+        if last_card_id == card.id:
+            last_card_color = color_interpreter(card.color)
+        if second_last_card_id == card.id:
+            second_last_card_color = color_interpreter(card.color)
+        if player_cards_ids[0] == card.id:
+            card1_color = color_interpreter(card.color)
+        if player_cards_ids[1] == card.id:
+            card2_color = color_interpreter(card.color)
+        if player_cards_ids[2] == card.id:
+            card3_color = color_interpreter(card.color)
+        if player_cards_ids[3] == card.id:
+            card4_color = color_interpreter(card.color)
+        if player_cards_ids[4] == card.id:
+            card5_color = color_interpreter(card.color)
+    if last_card_id == None:
+        last_card_color = None
+    if second_last_card_id == None:
+        second_last_card_color = None
+
+    colors_for_styles = [last_card_color, second_last_card_color, [card1_color, card2_color, card3_color, card4_color,
+                                                                   card5_color]]
+    return colors_for_styles
+

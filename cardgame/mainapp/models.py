@@ -64,7 +64,7 @@ class Player2State(models.Model):
 
 class MatchState(models.Model):
     initial_state = models.ForeignKey(InitialState, on_delete=models.CASCADE)
-    player1 = models.OneToOneField(Player1State, on_delete=models.CASCADE, null=True)
-    player2 = models.OneToOneField(Player2State, on_delete=models.CASCADE, null=True)
+    player1 = models.OneToOneField(Player1State, on_delete=models.CASCADE)
+    player2 = models.OneToOneField(Player2State, on_delete=models.CASCADE)
     last_card = models.IntegerField(null=True, choices=CARDS)
     second_last_card = models.IntegerField(null=True, choices=CARDS)

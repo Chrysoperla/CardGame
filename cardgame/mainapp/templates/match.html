@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
+
+<style>
+    div.last_card {background-color: {{last_card_color}}}
+    div.second_last_card {background-color: {{second_last_card_color}}}
+    div.card1 {background-color: {{card1_color}}}
+    div.card2 {background-color: {{card2_color}}}
+    div.card3 {background-color: {{card3_color}}}
+    div.card4 {background-color: {{card4_color}}}
+    div.card5 {background-color: {{card5_color}}}
+    </style>
+
 <div class="upper_part_box">
-<h2 class="match_cov">Conditions of victory</h2>
 <table class="match_cov">
     <tr>
-        <th>Tower: {{ match.initial_state.cov_tower }}</th>
-        <th>Resources: {{ match.initial_state.cov_resources}}</th>
+        <th>Conditions of victory:</th>
+        <th>Tower {{ match.initial_state.cov_tower }}</th>
+        <th>Resources {{ match.initial_state.cov_resources}}</th>
     </tr>
 </table>
 <table class="player1_state">
@@ -67,7 +78,7 @@
         </tr>
         <tr>
             <td>
-               <div class="card {{ second_last_card_color }}">
+               <div class="card second_last_card">
                    {% if match.second_last_card == None %}
                    -
                    {% else %}
@@ -90,7 +101,7 @@
         </tr>
         <tr>
             <td>
-                <div class="card">
+                <div class="card last_card">
   {% if match.last_card == None %}
   -
   {% else %}
@@ -120,7 +131,7 @@
 </div>
 {% else %}
 <div class="player_deck">
-<div class="card">
+<div class="card card1">
   {{card1_name}}<br><br>
     {{card1_description}}
     <div class="card_cost">
@@ -131,7 +142,7 @@
   </form>
   <button>Discard</button>
 </div>
-<div class="card">
+<div class="card card2">
   {{card2_name}}<br><br>
     {{card2_description}}
     <div class="card_cost">
@@ -142,7 +153,7 @@
   </form>
   <button>Discard</button>
 </div>
-<div class="card">
+<div class="card card3">
   {{card3_name}}<br><br>
     {{card3_description}}
     <div class="card_cost">
@@ -152,7 +163,7 @@
  <input type="submit" class="btn" value="Use" name="card3_usage">
   </form>
   <button>Discard</button></div>
-<div class="card">
+<div class="card card4">
   {{card4_name}}<br><br>
     {{card4_description}}
     <div class="card_cost">
@@ -163,7 +174,7 @@
   </form>
   <button>Discard</button>
 </div>
-<div class="card">
+<div class="card card5">
   {{card5_name}}<br><br>
     {{card5_description}}
     <div class="card_cost">
@@ -177,23 +188,3 @@
 </div>
 {% endif %}
 {% endblock %}
-
-<!--{% if CARD.color == "R"%}-->
-<!--<style>-->
-<!--    ELEMENT {-->
-<!--        background-color: red;-->
-<!--    }-->
-<!--</style>-->
-<!--{% elif CARD.color == "B"%}-->
-<!--<style>-->
-<!--    ELEMENT {-->
-<!--        background-color: blue;-->
-<!--    }-->
-<!--</style>-->
-<!--{% elif CARD.color == "G"%}-->
-<!--<style>-->
-<!--    ELEMENT {-->
-<!--        background-color: green;-->
-<!--    }-->
-<!--</style>-->
-<!--{% endif %}-->
