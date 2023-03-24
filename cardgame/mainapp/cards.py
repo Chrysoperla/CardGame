@@ -4,13 +4,7 @@ from mainapp import models, game_engine
 class Card:
 
     def __init__(self):
-        self.player = 0
-        # self.image =
         self.back_image = []
-
-    def discard(self):
-        player = 0
-        return player
 
     def select_my_side(self, player, match):
         if player == 1:
@@ -325,6 +319,29 @@ class FriendlyFairy(Card):
         match.second_last_card = match.last_card
         match.last_card = self.id
         my_side.save()
+        match.save()
+        return my_side
+
+class FireDragon(Card):
+    def __init__(self):
+        super().__init__()
+        self.id = 12
+        self.name = "Fire Dragon"
+        self.color = "R"
+        self.cost = 20
+        self.rarity = 1
+        self.description = "Deals 15 damage. The enemy looses 1 farm"
+        # self.image =
+
+    def usage(self, player, match):
+        # Deals 15 damage. The enemy looses 1 farm
+        enemy_side = super().select_enemy_side(player, match)
+        my_side = super().select_my_side(player, match)
+        my_side.gold -= self.cost
+        super().damage_calculation(15, player, match)
+        match.second_last_card = match.last_card
+        match.last_card = self.id
+        enemy_side.save()
         match.save()
         return my_side
 

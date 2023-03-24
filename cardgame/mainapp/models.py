@@ -19,17 +19,18 @@ class HumanPlayer(models.Model):
     game_count = models.IntegerField(default=0)
 
 CARDS = (
-    (1, "Tiny mouse"),
+    (1, "Tiny Mouse"),
     (2, "Arcane Butterfly"),
     (3, "Feline Familiar"),
     (4, "Foam Reptile"),
     (5, "Loyal Mount"),
-    (6, "Common wolf"),
+    (6, "Common Wolf"),
     (7, "Werewolf"),
     (8, "Dwarves"),
     (9, "Mermaid"),
     (10, "Orcs"),
-    (11, "Friendly Fairy")
+    (11, "Friendly Fairy"),
+    (12, "Fire Dragon")
     )
 class Player1State(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)

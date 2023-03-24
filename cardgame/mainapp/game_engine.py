@@ -144,21 +144,51 @@ def player2_card_choice(request):
         card_color = card_in_hand.color
         if card_color == "G":
             if card_in_hand.cost <= player2.food:
-                card_in_hand.usage(2, match)
+                player2 = card_in_hand.usage(2, match)
                 new_card = replace_card()
-                player2.card = new_card
+                if player2_deck.index(card_in_hand) == 0:
+                    player2.card1 = new_card.id
+                elif player2_deck.index(card_in_hand) == 1:
+                    player2.card2 = new_card.id
+                elif player2_deck.index(card_in_hand) == 2:
+                    player2.card3 = new_card.id
+                elif player2_deck.index(card_in_hand) == 3:
+                    player2.card4 = new_card.id
+                elif player2_deck.index(card_in_hand) == 4:
+                    player2.card5 = new_card.id
+                player2.save()
                 return new_card
         if card_color == "R":
             if card_in_hand.cost <= player2.gold:
-                card_in_hand.usage(2, match)
+                player2 = card_in_hand.usage(2, match)
                 new_card = replace_card()
-                player2.card = new_card
+                if player2_deck.index(card_in_hand) == 0:
+                    player2.card1 = new_card.id
+                elif player2_deck.index(card_in_hand) == 1:
+                    player2.card2 = new_card.id
+                elif player2_deck.index(card_in_hand) == 2:
+                    player2.card3 = new_card.id
+                elif player2_deck.index(card_in_hand) == 3:
+                    player2.card4 = new_card.id
+                elif player2_deck.index(card_in_hand) == 4:
+                    player2.card5 = new_card.id
+                player2.save()
                 return new_card
         if card_color == "B":
             if card_in_hand.cost <= player2.mana:
-                card_in_hand.usage(2, match)
+                player2 = card_in_hand.usage(2, match)
                 new_card = replace_card()
-                player2.card = new_card
+                if player2_deck.index(card_in_hand) == 0:
+                    player2.card1 = new_card.id
+                elif player2_deck.index(card_in_hand) == 1:
+                    player2.card2 = new_card.id
+                elif player2_deck.index(card_in_hand) == 2:
+                    player2.card3 = new_card.id
+                elif player2_deck.index(card_in_hand) == 3:
+                    player2.card4 = new_card.id
+                elif player2_deck.index(card_in_hand) == 4:
+                    player2.card5 = new_card.id
+                player2.save()
                 return new_card
     player2.card1.discard()
 
