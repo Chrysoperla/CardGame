@@ -50,8 +50,16 @@ class GameModeChoice(LoginRequiredMixin, View):
     def get(self, request):
         user_id = request.user.id
         initial_states = models.HumanPlayer.objects.get(user_id=user_id).initial_states.all()
-        ctx = {'username': request.user.username, 'initial_states': initial_states}
-        return render(request, "gamemodechoice.html", ctx)
+        if request.GET.get('delete'):
+            url = request.GET.get("delete")
+            initial_state_id = url[6:]
+            initial_state_to_delete = models.InitialState.objects.get(id=initial_state_id)
+            initial_state_to_delete.delete()
+            ctx = {'username': request.user.username, 'initial_states': initial_states}
+            return render(request, "gamemodechoice.html", ctx)
+        else:
+            ctx = {'username': request.user.username, 'initial_states': initial_states}
+            return render(request, "gamemodechoice.html", ctx)
     def post(self, request):
         user_id = request.user.id
         initial_states = models.HumanPlayer.objects.get(user_id=user_id).initial_states.all()

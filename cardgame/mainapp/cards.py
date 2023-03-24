@@ -76,9 +76,8 @@ class TinyMouse(Card):
         match.second_last_card = match.last_card
         match.last_card = self.id
         enemy_side.save()
-        my_side.save()
         match.save()
-        return enemy_side.wall, enemy_side.food
+        return my_side
 
 class ArcaneButterfly(Card):
 
@@ -104,9 +103,8 @@ class ArcaneButterfly(Card):
         match.second_last_card = match.last_card
         match.last_card = self.id
         enemy_side.save()
-        # my_side.save()
         match.save()
-        return enemy_side.wall, enemy_side.tower
+        return my_side
 
 class FelineFamiliar(Card):
     def __init__(self):
@@ -130,7 +128,7 @@ class FelineFamiliar(Card):
         match.last_card = self.id
         my_side.save()
         match.save()
-        return my_side.fountain, my_side.farm
+        return my_side
 
 class FoamReptile(Card):
     def __init__(self):
@@ -157,7 +155,7 @@ class FoamReptile(Card):
         enemy_side.save()
         my_side.save()
         match.save()
-        return enemy_side.wall, enemy_side.tower
+        return my_side
 
 class LoyalMount(Card):
     def __init__(self):
@@ -180,7 +178,7 @@ class LoyalMount(Card):
         match.second_last_card = match.last_card
         match.last_card = self.id
         match.save()
-        return my_side.food, my_side.gold, my_side.wall
+        return my_side
 
 class CommonWolf(Card):
     def __init__(self):
@@ -204,7 +202,7 @@ class CommonWolf(Card):
         match.second_last_card = match.last_card
         match.last_card = self.id
         match.save()
-        return
+        return my_side
 
 class Werewolf(Card):
     def __init__(self):
@@ -230,7 +228,7 @@ class Werewolf(Card):
         match.last_card = self.id
         my_side.save()
         match.save()
-        return enemy_side.wall, enemy_side.tower, my_side.wall, my_side.tower
+        return my_side
 
 class Dwarves(Card):
     def __init__(self):
@@ -254,7 +252,7 @@ class Dwarves(Card):
         match.last_card = self.id
         my_side.save()
         match.save()
-        return my_side.mine, my_side.wall, my_side.tower
+        return my_side
 
 class Mermaid(Card):
     def __init__(self):
@@ -281,7 +279,7 @@ class Mermaid(Card):
         enemy_side.save()
         my_side.save()
         match.save()
-        return enemy_side.wall
+        return my_side
 
 class Orcs(Card):
     def __init__(self):
@@ -306,7 +304,7 @@ class Orcs(Card):
         enemy_side.save()
         my_side.save()
         match.save()
-        return my_side.tower, enemy_side.tower, enemy_side.wall
+        return my_side
 
 class FriendlyFairy(Card):
     def __init__(self):
@@ -328,7 +326,7 @@ class FriendlyFairy(Card):
         match.last_card = self.id
         my_side.save()
         match.save()
-        return my_side.fountain
+        return my_side
 
 def create_deck():
     # creates a list of all the cards. The same card will appear in the deck the number of times its rarity applies.

@@ -54,6 +54,24 @@ def player1_round_start(user):
     player1.save()
     return
 
+def check_if_enough_resources(color, cost, resources):
+    # compares the cost of using the card to the amount of resources needed for that. Prevents from using the card if
+    # not enough resources
+    if color == "R":
+        if cost > resources[0]:
+            return False
+        else:
+            return True
+    if color == "B":
+        if cost > resources[1]:
+            return False
+        else:
+            return True
+    if color == "G":
+        if cost > resources[2]:
+            return False
+        else:
+            return True
 
 def player1_card_usage(request):
     # calls usage function of the card that had its "use" button clicked. After that moves the card to "last used cast"
@@ -75,7 +93,14 @@ def player1_card_usage(request):
                     card_to_use = card
                     break
             match = models.MatchState.objects.get(player1=player1_state)
-            card_to_use.usage(1, match)
+            can_i_use_the_card = check_if_enough_resources(card_to_use.color, card_to_use.cost, [player1_state.gold,
+                                                                                                 player1_state.mana,
+                                                                                                 player1_state.food])
+            if not can_i_use_the_card:
+                return
+            else:
+                pass
+            player1_state = card_to_use.usage(1, match)
             card_replacement = replace_card()
             if card_number_in_hand == 0:
                 player1_state.card1 = card_replacement.id
@@ -281,6 +306,7 @@ def add_card_colors_to_html(last_card_id, second_last_card_id, player_cards_ids)
     return colors_for_styles
 
 def initial_state_check(tower, wall, mine, gold, fountain, mana, farm, food, cov_tower, cov_resources):
+    error_message = ""
     if tower < 1 or tower > 999 or cov_tower < 1 or cov_tower > 999:
         error_message = "The tower must be higher that 0 and lower than 1000"
     elif wall < 0 or wall > 999:
@@ -294,3 +320,4 @@ def initial_state_check(tower, wall, mine, gold, fountain, mana, farm, food, cov
     elif (gold or mana or food) >= cov_resources:
         error_message = "The initial amounts of resources must be lower than the victorious one"
     return error_message
+

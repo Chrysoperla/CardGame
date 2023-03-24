@@ -17,26 +17,35 @@
   </tr>
 </thead>
 <tbody>
-  <tr>
-    <th>STANDARD</th>
-      <th>20</th>
-      <th>10</th>
-      <th>3 / 2 / 3</th>
-      <th>10 / 15 / 10</th>
-      <th>60</th>
-      <th>250</th>
-      <th><button><a href="{% url 'match' %}">PLAY!</a></button></th>
+<!--  <tr>-->
+<!--    <td>STANDARD</td>-->
+<!--      <td>20</td>-->
+<!--      <td>10</td>-->
+<!--      <td>3 / 2 / 3</td>-->
+<!--      <td>10 / 15 / 10</td>-->
+<!--      <td>60</td>-->
+<!--      <td>250</td>-->
+<!--      <td><button><a href="{% url 'match' %}">PLAY!</a></button></td>-->
 {% for initial_state in initial_states %}
       <tr>
-      <th></th>
-      <th>{{initial_state.tower}}</th>
-      <th>{{initial_state.wall}}</th>
-      <th>{{initial_state.mine}} / {{initial_state.fountain}} / {{initial_state.farm}}</th>
-      <th>{{initial_state.gold}} / {{initial_state.mana}} / {{initial_state.food}}</th>
-      <th>{{initial_state.cov_tower}}</th>
-      <th>{{initial_state.cov_resources}}</th>
-      <th><button type="button" class="play_button" id="{{initial_state.id}}">PLAY!</button></th>
-      <th><button type="button" class="delete_button">DELETE</button></th>
+      <td></td>
+      <td>{{initial_state.tower}}</td>
+      <td>{{initial_state.wall}}</td>
+      <td>{{initial_state.mine}} / {{initial_state.fountain}} / {{initial_state.farm}}</td>
+      <td>{{initial_state.gold}} / {{initial_state.mana}} / {{initial_state.food}}</td>
+      <td>{{initial_state.cov_tower}}</td>
+      <td>{{initial_state.cov_resources}}</td>
+      <td>
+<!--          <form action="#" method="get">-->
+<!--              <button type="submit" class ="btn" value="play{{initial_state.id}}" name="play">PLAY</button>-->
+<!--          </form>-->
+          <a href="/match">PLAY!</a>
+      </td>
+      <td>
+          <form action="#" method="get">
+              <button type="submit" class ="btn" value="delete{{initial_state.id}}" name="delete">DELETE</button>
+  </form>
+      </td>
 {% endfor %}
 </tbody>
 </table>
