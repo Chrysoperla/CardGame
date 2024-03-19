@@ -92,6 +92,7 @@ div.player_deck {
 }
 
 div.card {
+  position: relative;
   border-radius: 25px;
   border: solid black;
   border-width: 2px;
@@ -101,12 +102,14 @@ div.card {
   height: 250px;
   display: inline-block;
   text-align: center;
-  position: relative;
 }
 
 input.btn {
+    display: inline-block;
     float: left;
     align: bottom;
+    position: relative;
+    bottom: -100px;
 }
 
 div.recent_cards {
@@ -117,6 +120,7 @@ table.card_box {
     font-style: normal;
     display: inline-block;
     text-align: center;
+    align: bottom;
 }
 
 div.card_cost {
